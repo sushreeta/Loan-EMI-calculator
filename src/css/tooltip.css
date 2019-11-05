@@ -1,0 +1,34 @@
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 5px dotted #444;
+    margin-left: 22px;
+  }
+  
+  .tooltip .tooltiptext {
+    width: 45px;
+    background-color: #444;
+    color: #fafafa;
+    opacity: 1;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 2px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -35px;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #444 transparent transparent transparent;
+  }
