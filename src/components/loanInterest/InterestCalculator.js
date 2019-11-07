@@ -8,58 +8,48 @@ export default class CustomerList extends React.Component {
      constructor(){
           super()
           this.state={
-              amount:1000,
-              numMonths:10,
-              interestRate:0,
-              monthlyPayment:0,
-              isLoading:true
+            amount:1000,
+            numMonths:10,
+            interestRate:0,
+            monthlyPayment:0,
+            isLoading:true,
+            loanHits:[]
           }
      }
 
      updateAmount = ([amount])=>{
          this.setState({amount})
-         axios.get('/interest',{
-            params:{
-                amount:this.state.amount,
-                numMonths:this.state.numMonths
-            }
-        })
-             .then(response => {
-                if(response.data.status){
-                    alert(response.data.message)
-                }
-                const interestRate = response.data.interestRate
-                const monthlyPayment = response.data.monthlyPayment.amount
-                this.setState({ interestRate, monthlyPayment })
-             })
-             .catch(err=>{
-                  console.log(err)
-             })
      }
 
      updateduration = ([numMonths])=>{
         this.setState({numMonths})
-        axios.get('/interest',{
-           params:{
-               amount:this.state.amount,
-               numMonths:this.state.numMonths
-           }
-       })
-            .then(response => {
-                if(response.data.status){
-                    alert(response.data.message)
-                }
-                const interestRate = response.data.interestRate
-                const monthlyPayment = response.data.monthlyPayment.amount
-                this.setState({ interestRate, monthlyPayment })
-            })
-            .catch(err=>{
-                 console.log(err)
-            })
      }
 
+     componentDidUpdate(prevProps, prevState) {
+        if(prevState.amount !== this.state.amount || prevState.numMonths !== this.state.numMonths) {
+            
+            axios.get('/interest',{
+                params:{
+                    amount:this.state.amount,
+                    numMonths:this.state.numMonths
+                }
+            })
+                 .then(response => {
+                     if(response.data.status){
+                         alert(response.data.message)
+                     }
+                     const interestRate = response.data.interestRate
+                     const monthlyPayment = response.data.monthlyPayment.amount
+                     this.setState({ interestRate, monthlyPayment })
+                 })
+                 .catch(err=>{
+                      console.log(err)
+                 })
+        }
+    }
+
      componentDidMount(){
-          axios.get('/interest',{
+        axios.get('/interest',{
               params:{
                   amount:this.state.amount,
                   numMonths:this.state.numMonths
@@ -73,18 +63,10 @@ export default class CustomerList extends React.Component {
                     const interestRate = response.data.interestRate
                     const monthlyPayment = response.data.monthlyPayment.amount
                     this.setState({ interestRate, monthlyPayment })
-
-                    const search = {
-                        amount:this.state.amount,
-                        numMonths:this.state.numMonths,
-                        interestRate:this.state.interestRate,
-                        monthlyPayment:this.state.interestRate
-                    }
                })
                .catch(err=>{
                     console.log(err)
                })
-
      }
 
     amountSliderProps = {
