@@ -14,6 +14,7 @@ function App() {
           <div className="App-slider">
             <InterestCalculator/>  
           </div>
+          
         </header>
       </div>
     </BrowserRouter>

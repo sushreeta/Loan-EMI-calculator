@@ -25,6 +25,20 @@ export default class CustomerList extends React.Component {
         this.setState({numMonths})
      }
 
+     updateLocalStorage = ()=>{
+        const localStorageData = localStorage.getItem("loanHits")
+        if(localStorageData){
+            this.state.loanHits = JSON.parse(localStorageData)
+        }
+        const loanData = {
+            amount:this.state.amount,
+            numMonths:this.state.numMonths,
+            interestRate:this.state.interestRate,
+            monthlyPayment:this.state.monthlyPayment
+        }
+        localStorage.setItem("loanHits", JSON.stringify([...this.state.loanHits,loanData]))
+     }
+
      componentDidUpdate(prevProps, prevState) {
         if(prevState.amount !== this.state.amount || prevState.numMonths !== this.state.numMonths) {
             
@@ -41,6 +55,7 @@ export default class CustomerList extends React.Component {
                      const interestRate = response.data.interestRate
                      const monthlyPayment = response.data.monthlyPayment.amount
                      this.setState({ interestRate, monthlyPayment })
+                     this.updateLocalStorage()
                  })
                  .catch(err=>{
                       console.log(err)
@@ -63,6 +78,7 @@ export default class CustomerList extends React.Component {
                     const interestRate = response.data.interestRate
                     const monthlyPayment = response.data.monthlyPayment.amount
                     this.setState({ interestRate, monthlyPayment })
+                    this.updateLocalStorage()
                })
                .catch(err=>{
                     console.log(err)
@@ -94,6 +110,8 @@ export default class CustomerList extends React.Component {
                             
                             <p>Duration</p>
                             <SliderComponent {...this.durationSliderProps} />
+
+                            
                             
                         </div>
                     )}
